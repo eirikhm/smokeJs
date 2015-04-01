@@ -1,0 +1,29 @@
+{
+  "name": "warmsys-js",
+  "version": "0.0.1",
+  "authors": [
+    "Knut Eirik Leira Hjelle <hjellek@warmsys.com>"
+  ],
+  "moduleType": [
+    "amd"
+  ],
+  "license": "Private",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "src/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "requirejs": "git://github.com/jrburke/requirejs",
+    "backbone": "https://github.com/jashkenas/backbone.git",
+    "underscore": "https://github.com/jashkenas/underscore.git",
+    "jquery": "http://code.jquery.com/jquery-2.0.3.js"
+  },
+  "devDependencies": {
+    "sinonjs-built": "~1.9.0"
+  }
+}

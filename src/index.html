@@ -1,0 +1,34 @@
+<html>
+<head>
+    <title>Canvas Boilerplate</title>
+
+    <style type="text/css">
+        *,html{
+            margin: 0;padding: 0;
+        }
+        canvas {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script src="lib/jquery/index.js"></script>
+    <script src="lib/underscore/underscore.js"></script>
+    <script src="lib/backbone/backbone.js"></script>
+    <script src="smoke.js"></script>
+</head>
+<body onload="setup();">
+
+<canvas id="canvas"></canvas>
+
+
+<script>
+    window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+
+    function setup()
+    {
+        var game = new Game();
+        game.run();
+    }
+</script>
+</body>
+</html>

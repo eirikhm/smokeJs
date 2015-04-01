@@ -1,0 +1,7 @@
+# Created by .ignore support plugin (hsz.mobi)
+dev/
+lib/
+node_modules/
+tmp/
+.idea/
+.tscache
