@@ -8,37 +8,18 @@ class Game
     private ctx;
     private then:any;
     private entities = [];
-    private player;
-    private map;
+    private player:Player;
+    private level:Level;
 
+
+    private width:number;
+    private height:number;
+    private meter:any;
     public run():void
     {
-        $.getJSON("resources/level.json", (req) =>
-        {
-            this.map = new Level();
-            this.map.setup(req);
-            this.entities.push(this.map);
-            this.foo();
-        });
-
-    }
-
-    private foo():void
-    {
-        this.player = new Player();
+        this.meter = new FPSMeter();
 
 
-        this.entities.push(this.player);
-
-        // TODO: do not use singleton for this.
-        Keyboard.setup();
-        Keyboard.on('keydown', (e) =>
-        {
-            console.log('keydown',e);
-            this.onKeyboard(e);
-        });
-
-        this.then = Date.now();
         this.canvas = document.getElementById('canvas');
         this.ctx = this.canvas.getContext('2d');
         if (!this.ctx)
@@ -46,8 +27,34 @@ class Game
             // TODO: Show error
             return;
         }
-        window.addEventListener('resize', this.rescale);
-        this.rescale();
+
+
+
+
+        $.getJSON("resources/level.json", (req) =>
+        {
+            this.level = new Level();
+            this.level.setup(req);
+            this.width    = this.canvas.width  = this.level.map.width * Level.TILE_PIXEL_SIZE;
+            this.height   = this.canvas.height = this.level.map.height * Level.TILE_PIXEL_SIZE;
+
+            this.player = this.level.player;
+            this.entities.push(this.level);
+            this.onReady();
+        });
+
+    }
+
+    private onReady():void
+    {
+        // TODO: do not use singleton for this.
+        Keyboard.setup();
+        Keyboard.on('keydown', (e) =>
+        {
+            this.onKeyboard(e);
+        });
+
+        this.then = Date.now();
         this.loop();
     }
 
@@ -89,29 +96,20 @@ class Game
         for (var i = 0; i < this.entities.length; i++)
         {
             this.entities[i].update(delta);
-            this.map.collideEntity(this.entities[i]);
         }
-    }
-
-    private rescale()
-    {
-        this.global_width = window.innerWidth;
-        this.global_height = window.innerHeight;
-        if (this.ctx.webkitBackingStorePixelRatio < 2)
-        {
-            this.ratio = window.devicePixelRatio || 1;
-        }
-        this.canvas.setAttribute('width', this.global_width * this.ratio);
-        this.canvas.setAttribute('height', this.global_height * this.ratio);
     }
 
     private render()
     {
-        this.ctx.clearRect(0, 0, this.global_width * this.ratio, this.global_height * this.ratio);
+        this.meter.tickStart();
+
+
+        this.ctx.clearRect(0, 0, this.width,this.height);
         for (var i = 0; i < this.entities.length; i++)
         {
             this.entities[i].render(this.ctx);
         }
+        this.meter.tick();
 
     }
 

@@ -1,18 +1,41 @@
 class Level
 {
-    private map = {width: 64, height: 48};
+    public map = {width: 64, height: 48};
+
+    public player:Player;
+
+    private entities = [];
+
+    private static COLOR = {
+        BLACK: '#000000',
+        YELLOW: '#ECD078',
+        BRICK: '#D95B43',
+        PINK: '#C02942',
+        PURPLE: '#542437',
+        GREY: '#333',
+        SLATE: '#53777A',
+        GOLD: 'gold'
+    };
+
+    private static COLORS = [
+        Level.COLOR.YELLOW,
+        Level.COLOR.BRICK,
+        Level.COLOR.PINK,
+        Level.COLOR.PURPLE,
+        Level.COLOR.GREY
+    ];
+
+    private cells = [];
+
+    public static TILE_PIXEL_SIZE = 32;
 
 
     private cell(x, y)
     {
-        return this.tcell(this.pixel2tile(x), this.pixel2tile(y));
+        return this.getCell(this.pixel2tile(x), this.pixel2tile(y));
     }
 
-    private cells = [];
-
-    private static  TILE_PIXEL_SIZE = 32;
-
-    private tcell(tx, ty)
+    private getCell(tx, ty)
     {
         return this.cells[tx + (ty * this.map.width)];
     }
@@ -27,11 +50,14 @@ class Level
         return Math.floor(pixels / Level.TILE_PIXEL_SIZE);
     }
 
-    private static COLOR = {BLACK: '#000000', YELLOW: '#ECD078', BRICK: '#D95B43', PINK: '#C02942', PURPLE: '#542437', GREY: '#333', SLATE: '#53777A', GOLD: 'gold'};
-    private static COLORS = [Level.COLOR.YELLOW, Level.COLOR.BRICK, Level.COLOR.PINK, Level.COLOR.PURPLE, Level.COLOR.GREY];
 
     public update(detal):void
     {
+        for (var i = 0; i < this.entities.length; i++)
+        {
+            this.entities[i].update(detal);
+            this.collideEntity(this.entities[i]);
+        }
 
     }
 
@@ -42,7 +68,7 @@ class Level
         {
             for (x = 0; x < this.map.width; x++)
             {
-                cell = this.tcell(x, y);
+                cell = this.getCell(x, y);
                 if (cell)
                 {
                     ctx.fillStyle = Level.COLORS[cell - 1];
@@ -50,36 +76,53 @@ class Level
                 }
             }
         }
+
+        for (var i = 0; i < this.entities.length; i++)
+        {
+            this.entities[i].render(ctx);
+        }
+
     }
 
-    private setup(map:any)
+    public setup(map:any)
     {
-        var data = map.layers[0].data,
-            objects = map.layers[1].objects,
-            n, obj, entity;
-        /*
-         for (n = 0; n < objects.length; n++)
-         {
-         obj = objects[n];
-         entity = setupEntity(obj);
-         switch (obj.type)
-         {
-         case "player"   :
-         player = entity;
-         break;
-         case "monster"  :
-         monsters.push(entity);
-         break;
-         case "treasure" :
-         treasure.push(entity);
-         break;
-         }
-         }
+        var mapData = map.layers[0].data;
+        var objects = map.layers[1].objects;
+        var obj = null;
+        var entity:Entity = null;
 
-         */
-        this.cells = data;
+        console.log('object',objects);
+        for (var n = 0; n < objects.length; n++)
+        {
+            obj = objects[n];
+            entity = this.createEntity(obj);
+            if (entity.type == 'player')
+            {
+                this.player = <Player>entity;
+            }
+            this.entities.push(entity);
+        }
+
+        this.cells = mapData;
     }
 
+    private createEntity(obj):Entity
+    {
+        var entity:Entity = null;
+        switch(obj.type)
+        {
+            case 'monster':
+                entity = new Monster(obj);
+                break;
+            case 'player':
+                entity = new Player(obj);
+                break;
+            case 'treasure':
+                entity = new Treasure(obj);
+                break;
+        }
+        return entity;
+    }
 
     public collideEntity(entity:Entity):void
     {
@@ -87,10 +130,10 @@ class Level
         var yTile = this.pixel2tile(entity.y);
         var nx = entity.x % Level.TILE_PIXEL_SIZE;
         var ny = entity.y % Level.TILE_PIXEL_SIZE;
-        var cell = this.tcell(xTile, yTile);
-        var cellright = this.tcell(xTile + 1, yTile);
-        var celldown = this.tcell(xTile, yTile + 1);
-        var celldiag = this.tcell(xTile + 1, yTile + 1);
+        var cell = this.getCell(xTile, yTile);
+        var cellright = this.getCell(xTile + 1, yTile);
+        var celldown = this.getCell(xTile, yTile + 1);
+        var celldiag = this.getCell(xTile + 1, yTile + 1);
 
         if (entity.velocityY > 0)
         {
@@ -105,7 +148,7 @@ class Level
         }
         else if (entity.velocityY < 0)
         {
-            if ((cell && !celldown) ||  (cellright && !celldiag && nx))
+            if ((cell && !celldown) || (cellright && !celldiag && nx))
             {
                 entity.y = this.tile2pixel(yTile + 1);
                 entity.velocityY = 0;

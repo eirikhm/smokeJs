@@ -9,7 +9,5 @@ TODO:
 - Make Keyboard non-singleton
 - Fix multikey input problem where walk + jump + release jump stops all movement
 - Clean up level code to allow loading other levels
-- Implement loading of objects and entities from level
-
-
+- Create consts for entity types
 License MIT

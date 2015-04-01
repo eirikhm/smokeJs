@@ -1,27 +1,25 @@
 class Player extends Entity
 {
+    constructor(obj)
+    {
+        super(obj);
+        this.type = 'player';
+    }
 
     public render(ctx):void
     {
-        ctx.fillStyle = "red";
+        ctx.fillStyle = "blue";
+        
         ctx.fillRect(this.x, this.y, this.width, this.height);
+
     }
 
     public update(delta):void
     {
-        this.velocityX *= 0.9; // friction
-        this.velocityY += 0.2; // gravity
-
+        this.velocityX *= WorldConstants.FRICTION;
+        this.velocityY += WorldConstants.GRAVITY;
         this.x += this.velocityX;
         this.y += this.velocityY;
-
-        /*
-        if (this.y >= 500 - this.height)
-        {
-            this.y = 500 - this.height;
-            this.jumping = false;
-        }
-        */
     }
 
     public jump():void
