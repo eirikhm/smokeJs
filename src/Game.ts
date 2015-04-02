@@ -74,6 +74,11 @@ class Game
         {
             this.player.moveLeft();
         }
+
+        if (e.keys[90]) // z
+        {
+            this.player.shoot();
+        }
     }
 
     public loop():void

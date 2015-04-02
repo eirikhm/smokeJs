@@ -5,8 +5,9 @@
 
 class Treasure extends PhysicsEntity
 {
-    private isColleted:boolean = false;
+    private isCollected:boolean = false;
     private timer:number = 0;
+
     constructor(obj)
     {
         super(obj);
@@ -17,7 +18,7 @@ class Treasure extends PhysicsEntity
     public render(ctx):void
     {
         super.render(ctx);
-        if (!this.isColleted)
+        if (!this.isCollected)
         {
             ctx.fillStyle = "red";
             ctx.fillRect(this.x, this.y, this.width, this.height);
@@ -27,7 +28,7 @@ class Treasure extends PhysicsEntity
     public update(delta:number):void
     {
         super.update(delta);
-        if (this.isColleted)
+        if (this.isCollected)
         {
             this.timer += delta;
             if (this.timer > 1)
@@ -39,25 +40,25 @@ class Treasure extends PhysicsEntity
 
     public onCollide(entity:PhysicsEntity):void
     {
-        if (!this.isColleted && entity.type == 'player')
+        if (!this.isCollected && entity.type == 'player')
         {
             var player = <Player>entity;
             player.color = 'purple';
 
             player.health += 20;
-            this.isColleted = true;
+            this.isCollected = true;
 
             var particleOptions = {
-                width:10000, // TODO : constraint to world
-                height:10000,
-                spread:1,
+                width: 10000, // TODO : constraint to world
+                height: 10000,
+                spread: 1,
                 maxParticles: 20,
                 emissionRate: 6,
                 drawColor: 'FF9900',
                 particleSize: 4
             };
 
-            var emitter:ParticleEmitter = new ParticleEmitter(new Vector2D(this.x, this.y), Vector2D.fromAngle(180, 4),particleOptions);
+            var emitter:ParticleEmitter = new ParticleEmitter(new Vector2D(this.x, this.y), Vector2D.fromAngle(180, 4), particleOptions);
             this.children.push(emitter);
         }
     }

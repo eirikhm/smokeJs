@@ -54,4 +54,18 @@ class Player extends PhysicsEntity
             this.velocityX++;
         }
     }
+
+    public shoot():void
+    {
+        var b = new Bullet({
+            properties:{
+
+            }
+        });
+        b.x = this.x;
+        b.y = this.y;
+
+        this.children.push(b);
+
+    }
 }
