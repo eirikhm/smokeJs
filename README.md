@@ -10,9 +10,9 @@ TODO:
 - Fix multikey input problem where walk + jump + release jump stops all movement
 - Clean up level code to allow loading other levels
 - Create consts for entity types
-- Fix particle effects
 - Add sound support for pickups etc
 - Add BG music
 - Add support for multiple BGs
-- 
+- entity should have children 
+ 
 License MIT

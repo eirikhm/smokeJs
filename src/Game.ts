@@ -2,6 +2,8 @@
 ///<reference path="../definitions/fpsmeter/fpsmeter.d.ts" />
 ///<reference path="./world/Level.ts" />
 ///<reference path="./entities/Player.ts" />
+///<reference path="./math/Vector2D.ts" />
+///<reference path="./ParticleEmitter.ts" />
 
 class Game
 {
@@ -38,10 +40,16 @@ class Game
 
             this.player = this.level.player;
             this.entities.push(this.level);
+
+            var emitter:ParticleEmitter = new ParticleEmitter(new Vector2D(100, 230), Vector2D.fromAngle(0, 2),this.width,this.height);
+
+            this.entities.push(emitter);
+
             this.onReady();
         });
 
     }
+
 
     private onReady():void
     {
@@ -100,19 +108,11 @@ class Game
     private render()
     {
         this.meter.tickStart();
-
-
         this.ctx.clearRect(0, 0, this.width, this.height);
         for (var i = 0; i < this.entities.length; i++)
         {
             this.entities[i].render(this.ctx);
         }
         this.meter.tick();
-
-    }
-
-    private updateEntity(entity):void
-    {
-
     }
 }

@@ -1,55 +1,28 @@
 class Particle
 {
-    private particlesCount = 20; // Number of sparks when ball strikes the paddle
-    private partX = 100;
-    private particles = [];
-    private ctx;
-
-    public run()
+    public position:Vector2D;
+    public velocity:Vector2D;
+    public acceleration:Vector2D;
+    public particleSize:number;
+    constructor(point?:Vector2D, velocity?:Vector2D, acceleration?:Vector2D,particleSize?:number)
     {
-        for (var k = 0; k < this.particlesCount; k++)
-        {
-            this.particles.push(this.createParticles(this.partX, 100, 1));
-        }
 
-        // Emit particles/sparks
-        this.emitParticles();
-
+        this.position = point || new Vector2D();
+        this.velocity = velocity || new Vector2D();
+        this.acceleration = acceleration || new Vector2D();
+        this.particleSize = particleSize || 1;
     }
 
-    private  createParticles(x, y, m)
+
+    public move():void
     {
-        return {
-            x: x || 0,
-            y: y || 0,
-            radius: 1.2,
-            vx: -1.5 + Math.random() * 3,
-            vy: m * Math.random() * 1.5
-        };
+        this.velocity.add(this.acceleration);
+        this.position.add(this.velocity);
     }
 
-    public emitParticles()
+    public render(ctx):void
     {
-        for (var j = 0; j < this.particles.length; j++)
-        {
-            var par = this.particles[j];
-
-            this.ctx.beginPath();
-            this.ctx.fillStyle = "red";
-            if (par.radius > 0)
-            {
-                this.ctx.arc(par.x, par.y, par.radius, 0, Math.PI * 2, false);
-            }
-            this.ctx.fill();
-
-            par.x += par.vx;
-            par.y += par.vy;
-
-            // Reduce radius so that the particles die after a few seconds
-            par.radius = Math.max(par.radius - 0.05, 0.0);
-
-        }
+        ctx.fillRect(this.position.x, this.position.y, this.particleSize, this.particleSize);
     }
-
 
 }
