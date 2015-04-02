@@ -2,6 +2,8 @@
 
 class Player extends PhysicsEntity
 {
+    public color = "blue";
+
     constructor(obj)
     {
         super(obj);
@@ -10,10 +12,8 @@ class Player extends PhysicsEntity
 
     public render(ctx):void
     {
-        ctx.fillStyle = "blue";
-        
+        ctx.fillStyle = this.color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
-
     }
 
     public update(delta):void

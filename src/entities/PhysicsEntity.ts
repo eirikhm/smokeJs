@@ -11,12 +11,13 @@ class PhysicsEntity extends Entity
     public type:string;
 
     public killed:boolean;
+
     constructor(obj)
     {
         super(obj);
         this.velocityX = 0;
         this.velocityY = 0;
-        this.gravity  = WorldConstants.METER * (obj.properties.gravity || WorldConstants.GRAVITY);
+        this.gravity = WorldConstants.METER * (obj.properties.gravity || WorldConstants.GRAVITY);
         this.killed = false;
 
         /*this.maxdx    = METER * (obj.properties.maxdx   || MAXDX);
@@ -38,6 +39,19 @@ class PhysicsEntity extends Entity
     }
 
     public render(ctx:any):void
+    {
+
+    }
+
+    overlaps(other:PhysicsEntity)
+    {
+        return !(((this.x + this.width - 1) < other.x) ||
+        ((other.x + other.width - 1) < this.x) ||
+        ((this.y + this.height - 1) < other.y) ||
+        ((other.y + other.height - 1) < this.y))
+    }
+
+    public onCollide(entity:PhysicsEntity):void
     {
 
     }

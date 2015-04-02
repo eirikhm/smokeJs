@@ -1,4 +1,5 @@
 ///<reference path="../entities/PhysicsEntity.ts" />
+///<reference path="../entities/Player.ts" />
 
 class Treasure extends PhysicsEntity
 {
@@ -11,6 +12,7 @@ class Treasure extends PhysicsEntity
 
     public render(ctx):void
     {
+        //ctx.globalAlpha = 0.25 + tweenTreasure(frame, 60);
         ctx.fillStyle = "red";
         ctx.fillRect(this.x, this.y, this.width, this.height);
 
@@ -26,4 +28,15 @@ class Treasure extends PhysicsEntity
          ctx.globalAlpha = 1;
          */
     }
+
+    public onCollide(entity:PhysicsEntity):void
+    {
+        if (entity.type == 'player')
+        {
+            var p = <Player>entity;
+            p.color = 'purple';
+            this.killed = true;
+        }
+    }
+
 }

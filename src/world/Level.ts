@@ -1,3 +1,8 @@
+///<reference path="../entities/PhysicsEntity.ts" />
+///<reference path="../entities/Player.ts" />
+///<reference path="../entities/Monster.ts" />
+///<reference path="../entities/Treasure.ts" />
+
 class Level extends Entity
 {
     public map = {width: 64, height: 48};
@@ -30,40 +35,59 @@ class Level extends Entity
     public static TILE_PIXEL_SIZE = 32;
 
 
-    private cell(x, y)
+    private cell(x:number, y:number):number
     {
         return this.getCell(this.pixel2tile(x), this.pixel2tile(y));
     }
 
-    private getCell(tx, ty)
+    private getCell(tx:number, ty:number):number
     {
         return this.cells[tx + (ty * this.map.width)];
     }
 
-    private tile2pixel(tiles)
+    private tile2pixel(tiles:number):number
     {
         return tiles * Level.TILE_PIXEL_SIZE;
     }
 
-    private pixel2tile(pixels)
+    private pixel2tile(pixels:number):number
     {
         return Math.floor(pixels / Level.TILE_PIXEL_SIZE);
     }
 
-
-    public update(detal):void
+    public update(delta:number):void
     {
         for (var i = 0; i < this.entities.length; i++)
         {
-            this.entities[i].update(detal);
-            this.collideEntity(this.entities[i]);
+            var entity = <PhysicsEntity>this.entities[i];
+            if (entity.killed)
+            {
+                // do not use delete, will not reindex array.
+                this.entities.splice( i, 1 );
+                continue;
+            }
+            entity.update(delta);
+            this.checkWorldCollision(entity);
+            if (entity.type !== "player")
+            {
+                this.checkPlayerCollision(entity);
+            }
         }
+    }
 
+    private checkPlayerCollision(entity:PhysicsEntity):void
+    {
+        if (entity.overlaps(this.player))
+        {
+            entity.onCollide(this.player);
+        }
     }
 
     public render(ctx)
     {
-        var x, y, cell;
+        var x:number;
+        var y:number;
+        var cell:number;
         for (y = 0; y < this.map.height; y++)
         {
             for (x = 0; x < this.map.width; x++)
@@ -81,7 +105,6 @@ class Level extends Entity
         {
             this.entities[i].render(ctx);
         }
-
     }
 
     public setup(map:any)
@@ -91,7 +114,6 @@ class Level extends Entity
         var obj = null;
         var entity:PhysicsEntity = null;
 
-        console.log('object',objects);
         for (var n = 0; n < objects.length; n++)
         {
             obj = objects[n];
@@ -124,13 +146,13 @@ class Level extends Entity
         return entity;
     }
 
-    public collideEntity(entity:PhysicsEntity):void
+    public checkWorldCollision(entity:PhysicsEntity):void
     {
         var xTile = this.pixel2tile(entity.x);
         var yTile = this.pixel2tile(entity.y);
-        var nx = entity.x % Level.TILE_PIXEL_SIZE;
-        var ny = entity.y % Level.TILE_PIXEL_SIZE;
-        var cell = this.getCell(xTile, yTile);
+        var nx:number = entity.x % Level.TILE_PIXEL_SIZE;
+        var ny:number = entity.y % Level.TILE_PIXEL_SIZE;
+        var cell:number = this.getCell(xTile, yTile);
         var cellright = this.getCell(xTile + 1, yTile);
         var celldown = this.getCell(xTile, yTile + 1);
         var celldiag = this.getCell(xTile + 1, yTile + 1);
