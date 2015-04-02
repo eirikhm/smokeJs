@@ -8,6 +8,7 @@ class Player extends PhysicsEntity
     {
         super(obj);
         this.type = 'player';
+        this.velocityX = this.velocityY  = 0;
     }
 
     public render(ctx):void
@@ -15,15 +16,16 @@ class Player extends PhysicsEntity
         super.render(ctx);
         ctx.fillStyle = this.color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
-    }
+        ctx.fillStyle = 'red';
 
-    public update(delta):void
-    {
-        super.update(delta);
-        this.velocityX *= WorldConstants.FRICTION;
-        this.velocityY += WorldConstants.GRAVITY;
-        this.x += this.velocityX;
-        this.y += this.velocityY;
+        if (this.facingLeft)
+        {
+            ctx.fillRect(this.x, this.y, 10, 15);
+        }
+        else
+        {
+            ctx.fillRect(this.x + this.width-10, this.y, 10, 15);
+        }
     }
 
     public jump():void
@@ -37,6 +39,7 @@ class Player extends PhysicsEntity
 
     public moveLeft():void
     {
+        this.facingLeft = true;
         if (this.velocityX > -this.speed)
         {
             this.velocityX--;
@@ -45,6 +48,7 @@ class Player extends PhysicsEntity
 
     public moveRight():void
     {
+        this.facingRight = true;
         if (this.velocityX < this.speed)
         {
             this.velocityX++;

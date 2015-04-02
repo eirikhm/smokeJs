@@ -11,6 +11,7 @@ class Treasure extends PhysicsEntity
     {
         super(obj);
         this.type = 'treasure';
+        this.velocityX = this.velocityY = 0;
     }
 
     public render(ctx):void

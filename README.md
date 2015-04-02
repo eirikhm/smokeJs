@@ -11,10 +11,11 @@ TODO:
 - Clean up level code to allow loading other levels
 - Create consts for entity types
 - Add sound support for pickups etc
-- Add BG music
+- Add audio http://blog.sklambert.com/html5-canvas-game-html5-audio-and-finishing-touches/
 - Add support for multiple BGs
 - Particle and emitter should be entities
 - support collide for particles
 - support 360degree particle emit
+
 
 License MIT

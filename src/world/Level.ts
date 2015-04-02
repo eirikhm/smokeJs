@@ -143,14 +143,14 @@ class Level extends Entity
         var yTile = this.pixel2tile(entity.y);
         var nx:number = entity.x % Level.TILE_PIXEL_SIZE;
         var ny:number = entity.y % Level.TILE_PIXEL_SIZE;
-        var cell:number = this.getCell(xTile, yTile);
-        var cellright = this.getCell(xTile + 1, yTile);
-        var celldown = this.getCell(xTile, yTile + 1);
-        var celldiag = this.getCell(xTile + 1, yTile + 1);
+        var currentCell:number = this.getCell(xTile, yTile);
+        var cellRight = this.getCell(xTile + 1, yTile);
+        var cellBelow = this.getCell(xTile, yTile + 1);
+        var cellDiagonal = this.getCell(xTile + 1, yTile + 1);
 
         if (entity.velocityY > 0)
         {
-            if ((celldown && !cell) || (celldiag && !cellright && nx))
+            if ((cellBelow && !currentCell) || (cellDiagonal && !cellRight && nx))
             {
                 entity.y = this.tile2pixel(yTile);
                 entity.velocityY = 0;
@@ -161,20 +161,20 @@ class Level extends Entity
         }
         else if (entity.velocityY < 0)
         {
-            if ((cell && !celldown) || (cellright && !celldiag && nx))
+            if ((currentCell && !cellBelow) || (cellRight && !cellDiagonal && nx))
             {
                 entity.y = this.tile2pixel(yTile + 1);
                 entity.velocityY = 0;
-                cell = celldown;
-                cellright = celldiag;
+                currentCell = cellBelow;
+                cellRight = cellDiagonal;
                 ny = 0;
             }
         }
 
         if (entity.velocityX > 0)
         {
-            if ((cellright && !cell) ||
-                (celldiag && !celldown && ny))
+            if ((cellRight && !currentCell) ||
+                (cellDiagonal && !cellBelow && ny))
             {
                 entity.x = this.tile2pixel(xTile);
                 entity.velocityX = 0;
@@ -182,14 +182,21 @@ class Level extends Entity
         }
         else if (entity.velocityX < 0)
         {
-            if ((cell && !cellright) ||
-                (celldown && !celldiag && ny))
+            if ((currentCell && !cellRight) ||
+                (cellBelow && !cellDiagonal && ny))
             {
                 entity.x = this.tile2pixel(xTile + 1);
                 entity.velocityX = 0;
             }
         }
 
+        if (entity.facingLeft && (currentCell || !cellBelow))
+        {
+            entity.onEdge('left');
+        }
+        else if (entity.facingRight && (cellRight|| !cellDiagonal)) {
+            entity.onEdge('right');
+        }
         /*if (entity.monster) {
          if (entity.left && (cell || !celldown)) {
          entity.left = false;
@@ -201,6 +208,6 @@ class Level extends Entity
          }
          }
          */
-        entity.falling = !(celldown || (nx && celldiag));
+        entity.falling = !(cellBelow || (nx && cellDiagonal));
     }
 }
