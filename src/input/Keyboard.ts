@@ -1,4 +1,4 @@
-///<reference path="../definitions/backbone/backbone.d.ts" />
+///<reference path="../../definitions/backbone/backbone.d.ts" />
 
 class Keyboard extends EventBase
 {

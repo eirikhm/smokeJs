@@ -6,6 +6,10 @@ class Monster extends Entity
         this.type = 'monster';
     }
 
+    public update(delta:number):void
+    {
+
+    }
     public render(ctx):void
     {
         ctx.fillStyle = "yellow";
