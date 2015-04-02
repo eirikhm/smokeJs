@@ -1,4 +1,6 @@
-class Treasure extends Entity
+///<reference path="../entities/PhysicsEntity.ts" />
+
+class Treasure extends PhysicsEntity
 {
     constructor(obj)
     {

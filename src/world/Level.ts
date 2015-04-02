@@ -1,10 +1,10 @@
-class Level
+class Level extends Entity
 {
     public map = {width: 64, height: 48};
 
     public player:Player;
 
-    private entities = [];
+    private entities:PhysicsEntity[] = [];
 
     private static COLOR = {
         BLACK: '#000000',
@@ -89,7 +89,7 @@ class Level
         var mapData = map.layers[0].data;
         var objects = map.layers[1].objects;
         var obj = null;
-        var entity:Entity = null;
+        var entity:PhysicsEntity = null;
 
         console.log('object',objects);
         for (var n = 0; n < objects.length; n++)
@@ -106,9 +106,9 @@ class Level
         this.cells = mapData;
     }
 
-    private createEntity(obj):Entity
+    private createEntity(obj):PhysicsEntity
     {
-        var entity:Entity = null;
+        var entity:PhysicsEntity = null;
         switch(obj.type)
         {
             case 'monster':
@@ -124,7 +124,7 @@ class Level
         return entity;
     }
 
-    public collideEntity(entity:Entity):void
+    public collideEntity(entity:PhysicsEntity):void
     {
         var xTile = this.pixel2tile(entity.x);
         var yTile = this.pixel2tile(entity.y);

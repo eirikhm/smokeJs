@@ -1,4 +1,6 @@
-class Monster extends Entity
+///<reference path="../entities/PhysicsEntity.ts" />
+
+class Monster extends PhysicsEntity
 {
     constructor(obj)
     {

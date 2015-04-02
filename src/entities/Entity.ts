@@ -4,25 +4,17 @@ class Entity
     public y = 0;
     public width = 32;
     public height = 32;
-    public velocityX = 0;
-    public velocityY = 0;
-    public gravity = WorldConstants.GRAVITY;
-    public speed = 5;
-    public jumping:boolean = false;
-    public falling:boolean = false;
     public type:string;
 
-    public killed:boolean;
-    constructor(obj)
+    constructor(obj?:any)
     {
+        if (obj)
+        {
+            this.x = obj.x;
+            this.y = obj.y;
+        }
 
 
-        this.x = obj.x;
-        this.y = obj.y;
-        this.velocityX = 0
-        this.velocityY = 0;
-        this.gravity  = WorldConstants.METER * (obj.properties.gravity || WorldConstants.GRAVITY);
-        this.killed = false;
 
         /*this.maxdx    = METER * (obj.properties.maxdx   || MAXDX);
         this.maxdy    = METER * (obj.properties.maxdy   || MAXDY);

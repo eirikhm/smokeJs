@@ -1,4 +1,6 @@
-class Player extends Entity
+///<reference path="../entities/PhysicsEntity.ts" />
+
+class Player extends PhysicsEntity
 {
     constructor(obj)
     {
