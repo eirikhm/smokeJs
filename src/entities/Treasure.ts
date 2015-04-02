@@ -43,6 +43,7 @@ class Treasure extends PhysicsEntity
             var player = <Player>entity;
             player.color = 'purple';
 
+            player.health += 20;
             this.isColleted = true;
 
             var particleOptions = {

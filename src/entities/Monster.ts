@@ -15,4 +15,11 @@ class Monster extends PhysicsEntity
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 
+    public onCollide(entity:PhysicsEntity):void
+    {
+        if (entity.type == 'player')
+        {
+            entity.hurt(1);
+        }
+    }
 }

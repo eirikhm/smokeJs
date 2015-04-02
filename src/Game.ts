@@ -39,11 +39,11 @@ class Game
             this.height = this.canvas.height = this.level.map.height * Level.TILE_PIXEL_SIZE;
             this.player = this.level.player;
             this.entities.push(this.level);
+
+            $('body .info .health').html(this.player.health.toString());
             this.onReady();
         });
-
     }
-
 
     private onReady():void
     {

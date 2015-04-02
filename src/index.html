@@ -11,6 +11,16 @@
             height: 100%;
             background-color: #999999;
         }
+        .info{
+
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            z-index: 10;
+            left: 0;
+            bottom: 0;
+            background-color: rgba(100,100,100,0.4);
+        }
     </style>
     <script src="lib/jquery/index.js"></script>
     <script src="lib/underscore/underscore.js"></script>
@@ -22,7 +32,9 @@
 
 <canvas id="canvas"></canvas>
 
-
+<div class="info">
+    <span class="health"></span>
+</div>
 <script>
     window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
@@ -32,5 +44,6 @@
         game.run();
     }
 </script>
+
 </body>
 </html>

@@ -10,6 +10,8 @@ class PhysicsEntity extends Entity
     public falling:boolean = false;
     public type:string;
 
+    public health:number = 100;
+
     public killed:boolean;
 
     constructor(obj)
@@ -45,4 +47,15 @@ class PhysicsEntity extends Entity
     {
 
     }
+
+    public hurt(damage:number):void
+    {
+        this.health -= damage;
+        console.log('hurt',damage);
+        if (this.health <= 0)
+        {
+            this.killed = true;
+        }
+    }
+
 }
