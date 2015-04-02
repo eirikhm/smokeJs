@@ -8,12 +8,9 @@ class Monster extends PhysicsEntity
         this.type = 'monster';
     }
 
-    public update(delta:number):void
-    {
-
-    }
     public render(ctx):void
     {
+        super.render(ctx);
         ctx.fillStyle = "yellow";
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }

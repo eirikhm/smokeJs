@@ -37,14 +37,8 @@ class Game
             this.level.setup(req);
             this.width = this.canvas.width = this.level.map.width * Level.TILE_PIXEL_SIZE;
             this.height = this.canvas.height = this.level.map.height * Level.TILE_PIXEL_SIZE;
-
             this.player = this.level.player;
             this.entities.push(this.level);
-
-            var emitter:ParticleEmitter = new ParticleEmitter(new Vector2D(100, 230), Vector2D.fromAngle(0, 2),this.width,this.height);
-
-            this.entities.push(emitter);
-
             this.onReady();
         });
 

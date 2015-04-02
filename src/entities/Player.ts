@@ -12,12 +12,14 @@ class Player extends PhysicsEntity
 
     public render(ctx):void
     {
+        super.render(ctx);
         ctx.fillStyle = this.color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 
     public update(delta):void
     {
+        super.update(delta);
         this.velocityX *= WorldConstants.FRICTION;
         this.velocityY += WorldConstants.GRAVITY;
         this.x += this.velocityX;
@@ -29,7 +31,7 @@ class Player extends PhysicsEntity
         if (!this.jumping)
         {
             this.jumping = true;
-            this.velocityY = -this.speed * 2;
+            this.velocityY = -this.speed * 3;
         }
     }
 

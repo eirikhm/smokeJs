@@ -13,6 +13,8 @@ TODO:
 - Add sound support for pickups etc
 - Add BG music
 - Add support for multiple BGs
-- entity should have children 
- 
+- Particle and emitter should be entities
+- support collide for particles
+- support 360degree particle emit
+
 License MIT

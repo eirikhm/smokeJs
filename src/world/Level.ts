@@ -9,8 +9,6 @@ class Level extends Entity
 
     public player:Player;
 
-    private entities:PhysicsEntity[] = [];
-
     private static COLOR = {
         BLACK: '#000000',
         YELLOW: '#ECD078',
@@ -57,16 +55,11 @@ class Level extends Entity
 
     public update(delta:number):void
     {
-        for (var i = 0; i < this.entities.length; i++)
+        super.update(delta);
+        for (var i = 0; i < this.children.length; i++)
         {
-            var entity = <PhysicsEntity>this.entities[i];
-            if (entity.killed)
-            {
-                // do not use delete, will not reindex array.
-                this.entities.splice( i, 1 );
-                continue;
-            }
-            entity.update(delta);
+            var entity = <PhysicsEntity>this.children[i];
+
             this.checkWorldCollision(entity);
             if (entity.type !== "player")
             {
@@ -101,10 +94,8 @@ class Level extends Entity
             }
         }
 
-        for (var i = 0; i < this.entities.length; i++)
-        {
-            this.entities[i].render(ctx);
-        }
+        super.render(ctx);
+
     }
 
     public setup(map:any)
@@ -122,7 +113,7 @@ class Level extends Entity
             {
                 this.player = <Player>entity;
             }
-            this.entities.push(entity);
+            this.children.push(entity);
         }
 
         this.cells = mapData;

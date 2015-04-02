@@ -33,16 +33,6 @@ class PhysicsEntity extends Entity
 
     }
 
-    public update(delta:number):void
-    {
-
-    }
-
-    public render(ctx:any):void
-    {
-
-    }
-
     overlaps(other:PhysicsEntity)
     {
         return !(((this.x + this.width - 1) < other.x) ||
