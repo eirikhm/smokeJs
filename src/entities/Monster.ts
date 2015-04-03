@@ -30,7 +30,6 @@ class Monster extends PhysicsEntity
 
     public update(delta):void
     {
-
         if (this.facingLeft)
         {
             this.x -= this.velocityX;
@@ -39,7 +38,6 @@ class Monster extends PhysicsEntity
         {
             this.x += this.velocityX;
         }
-
     }
 
 
@@ -50,6 +48,7 @@ class Monster extends PhysicsEntity
             entity.hurt(1);
         }
     }
+
     public onEdge(direction:string):void
     {
         if (direction == 'left')

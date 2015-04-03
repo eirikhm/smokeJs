@@ -53,29 +53,6 @@ class Level extends Entity
         return Math.floor(pixels / Level.TILE_PIXEL_SIZE);
     }
 
-    public update(delta:number):void
-    {
-        super.update(delta);
-        for (var i = 0; i < this.children.length; i++)
-        {
-            var entity = <PhysicsEntity>this.children[i];
-
-            this.checkWorldCollision(entity);
-            if (entity.type !== "player")
-            {
-                this.checkPlayerCollision(entity);
-            }
-        }
-    }
-
-    private checkPlayerCollision(entity:PhysicsEntity):void
-    {
-        if (entity.overlaps(this.player))
-        {
-            entity.onCollide(this.player);
-        }
-    }
-
     public render(ctx)
     {
         var x:number;
@@ -98,43 +75,13 @@ class Level extends Entity
 
     }
 
-    public setup(map:any)
+
+    public initializeAndReturnObjects(map:any)
     {
         var mapData = map.layers[0].data;
         var objects = map.layers[1].objects;
-        var obj = null;
-        var entity:PhysicsEntity = null;
-
-        for (var n = 0; n < objects.length; n++)
-        {
-            obj = objects[n];
-            entity = this.createEntity(obj);
-            if (entity.type == 'player')
-            {
-                this.player = <Player>entity;
-            }
-            this.children.push(entity);
-        }
-
         this.cells = mapData;
-    }
-
-    private createEntity(obj):PhysicsEntity
-    {
-        var entity:PhysicsEntity = null;
-        switch(obj.type)
-        {
-            case 'monster':
-                entity = new Monster(obj);
-                break;
-            case 'player':
-                entity = new Player(obj);
-                break;
-            case 'treasure':
-                entity = new Treasure(obj);
-                break;
-        }
-        return entity;
+        return map.layers[1].objects;
     }
 
     public checkWorldCollision(entity:PhysicsEntity):void
@@ -157,6 +104,7 @@ class Level extends Entity
                 entity.falling = false;
                 entity.jumping = false;
                 ny = 0;
+                entity.hitFloor();
             }
         }
         else if (entity.velocityY < 0)
@@ -168,6 +116,7 @@ class Level extends Entity
                 currentCell = cellBelow;
                 cellRight = cellDiagonal;
                 ny = 0;
+                //entity.hitCeiling();
             }
         }
 
@@ -178,6 +127,7 @@ class Level extends Entity
             {
                 entity.x = this.tile2pixel(xTile);
                 entity.velocityX = 0;
+                entity.hitWall();
             }
         }
         else if (entity.velocityX < 0)
@@ -187,6 +137,7 @@ class Level extends Entity
             {
                 entity.x = this.tile2pixel(xTile + 1);
                 entity.velocityX = 0;
+                entity.hitWall();
             }
         }
 
@@ -197,17 +148,7 @@ class Level extends Entity
         else if (entity.facingRight && (cellRight|| !cellDiagonal)) {
             entity.onEdge('right');
         }
-        /*if (entity.monster) {
-         if (entity.left && (cell || !celldown)) {
-         entity.left = false;
-         entity.right = true;
-         }
-         else if (entity.right && (cellright || !celldiag)) {
-         entity.right = false;
-         entity.left  = true;
-         }
-         }
-         */
+
         entity.falling = !(cellBelow || (nx && cellDiagonal));
     }
 }

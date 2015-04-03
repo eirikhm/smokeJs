@@ -77,12 +77,22 @@ class PhysicsEntity extends Entity
 
     }
 
+    public hitFloor():void
+    {
+
+    }
+    public hitWall():void
+    {
+
+    }
+
     public hurt(damage:number):void
     {
         this.health -= damage;
         console.log('hurt', damage);
         if (this.health <= 0)
         {
+            console.log('entity killed');
             this.killed = true;
         }
     }

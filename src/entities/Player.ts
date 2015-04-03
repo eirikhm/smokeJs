@@ -55,7 +55,7 @@ class Player extends PhysicsEntity
         }
     }
 
-    public shoot():void
+    public shoot():Bullet
     {
         var b = new Bullet({
             properties:{
@@ -65,7 +65,11 @@ class Player extends PhysicsEntity
         b.x = this.x;
         b.y = this.y;
 
-        this.children.push(b);
+        if (this.facingLeft)
+        {
+            b.velocityX = -b.velocityX;
+        }
+        return b;
 
     }
 }

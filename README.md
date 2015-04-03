@@ -7,7 +7,6 @@ Map editor http://www.mapeditor.org/
 
 TODO high to low:
 - Fix multikey input problem where walk + jump + release jump stops all movement
-- Figure out how to check collide bullets vs enemies
 - Implement XP for kills, look at http://www.wowwiki.com/Formulas:Mob_XP#Basic_Formula
 - Implement player level
 - Add audio http://blog.sklambert.com/html5-canvas-game-html5-audio-and-finishing-touches/
