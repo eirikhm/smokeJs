@@ -1,5 +1,6 @@
 ///<reference path="../definitions/backbone/backbone.d.ts" />
 ///<reference path="../definitions/fpsmeter/fpsmeter.d.ts" />
+///<reference path="../definitions/webaudioapi/waa.d.ts" />
 ///<reference path="./world/Level.ts" />
 ///<reference path="./entities/Player.ts" />
 ///<reference path="./math/Vector2D.ts" />
@@ -17,6 +18,7 @@ class Game
     private width:number;
     private height:number;
     private meter:FPSMeter;
+    private audioCtx:any;
 
     public run():void
     {
@@ -28,6 +30,18 @@ class Game
             // TODO: Show error
             return;
         }
+
+
+        try
+        {
+            //window.AudioContext = window.AudioContext || window.webkitAudioContext;
+            this.audioCtx = new AudioContext();
+        }
+        catch (e)
+        {
+            alert("Web Audio API is not supported in this browser");
+        }
+
 
         $.getJSON("resources/level.json", (req) =>
         {
@@ -41,9 +55,49 @@ class Game
             this.width = this.canvas.width = this.level.map.width * Level.TILE_PIXEL_SIZE;
             this.height = this.canvas.height = this.level.map.height * Level.TILE_PIXEL_SIZE;
 
-            $('body .info .health').html(this.player.health.toString());
+            this.loadSounds(this.audioCtx);
             this.onReady();
         });
+    }
+
+    private buffers;
+    public loadSounds(context)
+    {
+        var sounds = [
+            'resources/sounds/m4a1.mp3',
+            'resources/sounds/m1-garand.mp3'
+        ];
+
+        var loader = new BufferLoader(context, sounds, (buffers) => {
+            this.buffers = buffers;
+        });
+
+        loader.load();
+    }
+
+    public playSound(soundId:number, numToPlay:number, delayInterval:number, startTimeModifier  = 0, playbackRateModifier = 0)
+    {
+        var time = this.audioCtx.currentTime;
+        // Make multiple sources using the same buffer and play in quick succession.
+        for (var i = 0; i < numToPlay; i++)
+        {
+            var source = this.makeSource(this.buffers[soundId]);
+            source.playbackRate.value = 1 + Math.random() * playbackRateModifier;
+            source.start(time + i * delayInterval + Math.random() * startTimeModifier);
+        }
+    }
+
+    public makeSource(buffer)
+    {
+        var source = this.audioCtx.createBufferSource();
+        var compressor = this.audioCtx.createDynamicsCompressor();
+        var gain = this.audioCtx.createGain();
+        gain.gain.value = 0.2;
+        source.buffer = buffer;
+        source.connect(gain);
+        gain.connect(compressor);
+        compressor.connect(this.audioCtx.destination);
+        return source;
     }
 
     private onMapLodaedForor(objects):void
@@ -114,6 +168,8 @@ class Game
         if (e.keys[90]) // z
         {
             this.projectiles.push(this.player.shoot());
+            //this.shootRound(0, 3, 0.1);
+            this.playSound(1, 10, 0.08, 0, 1);
         }
     }
 
