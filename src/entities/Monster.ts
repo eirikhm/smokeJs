@@ -8,7 +8,6 @@ class Monster extends PhysicsEntity
         this.type = 'monster';
         this.speed = (Math.random() +1)*2;
         this.velocityX = this.speed;
-        console.log(this);
     }
 
     public render(ctx):void

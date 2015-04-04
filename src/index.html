@@ -33,7 +33,9 @@
 <canvas id="canvas"></canvas>
 
 <div class="info">
-    <span class="health"></span>
+    HP: <span data-bind="health"></span><br/>
+    XP: <span data-bind="xp"></span><br/>
+    LVL: <span data-bind="lvl"></span><br/>
 </div>
 <script>
     window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;

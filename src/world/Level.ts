@@ -95,16 +95,27 @@ class Level extends Entity
         var cellBelow = this.getCell(xTile, yTile + 1);
         var cellDiagonal = this.getCell(xTile + 1, yTile + 1);
 
+        if (entity.type == 'bullet')
+        {
+            console.log('cellBelow ',cellBelow );
+            console.log('yTile',yTile);
+            console.log('xTile',xTile);
+            console.log('-------------');
+
+        }
+
         if (entity.velocityY > 0)
         {
             if ((cellBelow && !currentCell) || (cellDiagonal && !cellRight && nx))
             {
+
                 entity.y = this.tile2pixel(yTile);
                 entity.velocityY = 0;
                 entity.falling = false;
                 entity.jumping = false;
                 ny = 0;
                 entity.hitFloor();
+                
             }
         }
         else if (entity.velocityY < 0)
@@ -122,8 +133,7 @@ class Level extends Entity
 
         if (entity.velocityX > 0)
         {
-            if ((cellRight && !currentCell) ||
-                (cellDiagonal && !cellBelow && ny))
+            if ((cellRight && !currentCell) || (cellDiagonal && !cellBelow && ny))
             {
                 entity.x = this.tile2pixel(xTile);
                 entity.velocityX = 0;
@@ -132,8 +142,7 @@ class Level extends Entity
         }
         else if (entity.velocityX < 0)
         {
-            if ((currentCell && !cellRight) ||
-                (cellBelow && !cellDiagonal && ny))
+            if ((currentCell && !cellRight) || (cellBelow && !cellDiagonal && ny))
             {
                 entity.x = this.tile2pixel(xTile + 1);
                 entity.velocityX = 0;

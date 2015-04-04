@@ -58,8 +58,8 @@ class Treasure extends PhysicsEntity
                 particleSize: 4
             };
 
-            var emitter:ParticleEmitter = new ParticleEmitter(new Vector2D(this.x, this.y), Vector2D.fromAngle(180, 4), particleOptions);
-            this.children.push(emitter);
+            var emitter:any = new ParticleEmitter(new Vector2D(this.x, this.y), Vector2D.fromAngle(180, 4), particleOptions);
+            this.children.push(<Entity>emitter); // this is a hack, the emitter is not Entity
         }
     }
 }

@@ -120,7 +120,7 @@ class Game
     private createEntity(obj):PhysicsEntity
     {
         var entity:PhysicsEntity = null;
-        switch(obj.type)
+        switch (obj.type)
         {
             case 'monster':
                 entity = new Monster(obj);
@@ -198,7 +198,7 @@ class Game
             if (this.projectiles[i].killed) // TODO: run cleanup first.
             {
                 // do not use delete, will not reindex array.
-                this.projectiles.splice( i, 1 );
+                this.projectiles.splice(i, 1);
             }
         }
 
@@ -231,10 +231,20 @@ class Game
                 if (entity.killed) // TODO: run cleanup first.
                 {
                     // do not use delete, will not reindex array.
-                    this.entities.splice( i, 1 );
+                    this.entities.splice(i, 1);
+                    this.updateGui();
                 }
             }
         }
+    }
+
+
+    private updateGui():void
+    {
+        $('[data-bind=health]').html(this.player.health.toString());
+        $('[data-bind=xp]').html('0');
+        $('[data-bind=lvl]').html('1');
+
     }
 
     private bulletOverlaps(entity):void
@@ -245,7 +255,7 @@ class Game
             {
                 this.projectiles[i].onCollide(entity);
                 this.projectiles[i].killed = true;
-                this.projectiles.splice( i, 1 );
+                this.projectiles.splice(i, 1);
             }
         }
     }

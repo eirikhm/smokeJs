@@ -14,7 +14,6 @@ class ParticleEmitter
 
     constructor(position:Vector2D, velocity:Vector2D, options?:any)
     {
-        console.log('created with position',position);
         this.position = position;
         this.velocity = velocity;
 
@@ -52,7 +51,6 @@ class ParticleEmitter
             // If we're out of bounds, drop this particle and move on to the next
             if (pos.x < 0 || pos.x > this.width || pos.y < 0 || pos.y > this.height)
             {
-                console.log('out of bounds');
                 continue;
             }
 
