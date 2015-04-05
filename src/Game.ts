@@ -201,6 +201,16 @@ class Game
             this.player.moveLeft();
         }
 
+        if (Keyboard.isDown(49))
+        {
+            this.player.currentWeapon = 'normal';
+        }
+
+        if (Keyboard.isDown(50))
+        {
+            this.player.currentWeapon = 'other';
+        }
+
         if (Keyboard.isDown(90))
         {
             Keyboard.releaseKey(90);

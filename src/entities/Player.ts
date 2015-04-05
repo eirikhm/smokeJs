@@ -71,6 +71,8 @@ class Player extends PhysicsEntity
     }
 
     private lastShot:number = null;
+
+    public currentWeapon:string = 'normal';
     public shoot():Projectile
     {
         if (!this.canShoot())
@@ -80,20 +82,7 @@ class Player extends PhysicsEntity
 
         this.lastShot = Date.now();
 
-        var b = new Projectile({
-            properties:{
-
-            }
-        });
-        b.x = this.x;
-        b.y = this.y;
-
-        if (this.facingLeft)
-        {
-            b.velocityX = -b.velocityX;
-        }
-        return b;
-
+        return this.createBullet(this.currentWeapon);
     }
 
     public collectItem(item:Entity):void
@@ -113,5 +102,42 @@ class Player extends PhysicsEntity
     {
         super.onHurt();
         this.trigger(Player.EVENT_PLAYER_HURT);
+    }
+
+    private createBullet(type:string):Projectile
+    {
+        var options = {
+            velocityX: 2,
+            velocityY: 0,
+            width: 32,
+            height: 32,
+            color: 'blue',
+            damage: 10
+        };
+
+        if (type == 'normal')
+        {
+            options.color = 'orange';
+            options.damage = 10;
+            options.velocityX = 75;
+        }
+
+        if (type == 'other')
+        {
+            options.color = 'pink';
+            options.velocityX = 100;
+            options.damage = 25;
+        }
+
+        var b = new Projectile(options);
+        b.x = this.x;
+        b.y = this.y;
+
+        if (this.facingLeft)
+        {
+            b.velocityX = -b.velocityX;
+        }
+
+        return b;
     }
 }

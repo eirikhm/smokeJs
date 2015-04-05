@@ -37,32 +37,32 @@ class PhysicsEntity extends Entity
     constructor(obj)
     {
         super(obj);
-        this.velocityX = 0;
-        this.velocityY = 0;
-        this.gravity = WorldConstants.METER * (obj.properties.gravity || WorldConstants.GRAVITY);
+        if (obj.hasOwnProperty('properties'))
+        {
+            this.gravity = WorldConstants.METER * (obj.properties.gravity || WorldConstants.GRAVITY);
+            this.velocityX = WorldConstants.METER * (obj.properties.maxdx) || WorldConstants.METER;
+            if (obj.properties.left )
+            {
+                this.facing = 'left';
+            }
+
+            if (obj.properties.right)
+            {
+                this.facing = 'right';
+            }
+        }
+        else
+        {
+            this.gravity = WorldConstants.METER * WorldConstants.GRAVITY;
+        }
+
         this.killed = false;
 
-        if (obj.properties.left )
+
+        if (!this.facing)
         {
-            this.facing = 'left';
+            this.facing = 'left'
         }
-
-        if (obj.properties.right)
-        {
-            this.facing = 'right';
-        }
-        this.facing = obj.facing || 'left';
-        this.velocityX = WorldConstants.METER * (obj.properties.maxdx) || WorldConstants.METER;
-        /*this.maxdx    = METER * (obj.properties.maxdx   || MAXDX);
-         this.maxdy    = METER * (obj.properties.maxdy   || MAXDY);
-         this.impulse  = METER * (obj.properties.impulse || IMPULSE);*/
-
-        //entity.accel    = entity.maxdx / (obj.properties.accel    || ACCEL);
-        // entity.friction = entity.maxdx / (obj.properties.friction || FRICTIO
-//        this.start    = { x: obj.x, y: obj.y }
-
-        //entity.left     = obj.properties.left;
-        //entity.right    = obj.properties.right;
 
     }
 

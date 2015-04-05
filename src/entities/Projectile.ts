@@ -1,19 +1,20 @@
 class Projectile extends PhysicsEntity
 {
+    get damage():number
+    {
+        return this.get('damage');
+    }
+
     constructor(obj?)
     {
         super(obj);
-        this.velocityX = 100;
-        this.velocityY = 0;
-        this.width = 32;
-        this.height = 32;
         this.type = Entity.EntityTypes.PROJECTILE;
     }
 
     public render(ctx):void
     {
         super.render(ctx);
-        ctx.fillStyle = 'green';
+        ctx.fillStyle = this.get('color');
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 
@@ -31,9 +32,8 @@ class Projectile extends PhysicsEntity
     {
         if (entity.type == Entity.EntityTypes.MONSTER)
         {
-            entity.hurt(100);
+            entity.hurt(this.damage);
             this.killed = true;
         }
     }
-
 }
