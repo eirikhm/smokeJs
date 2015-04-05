@@ -8,27 +8,21 @@ class Keyboard extends EventBase
     {
         this.keysDown = {};
 
-        $(document).keydown((e) => {
-            this.keysDown[e.keyCode] = true;
+        $(document).keydown((e:KeyboardEvent) => {
+            this.keysDown[e.which] = true;
             this.trigger('keydown',{keys:this.keysDown});
             return false;
         });
 
-        $(document).keyup((e) => {
-            delete this.keysDown[e.keyCode];
+        $(document).keyup((e:KeyboardEvent) => {
+            delete this.keysDown[e.which];
             return false;
         });
-        /*
-            addEventListener("keydown", (e:KeyboardEvent) => {
+    }
 
-            this.keysDown[e.keyCode] = true;
-            this.trigger('keydown',{keys:this.keysDown});
-        }, false);
+    public static isDown(key):boolean
+    {
+        return this.keysDown[key];
 
-        addEventListener("keyup",  (e:KeyboardEvent) => {
-
-            delete this.keysDown[e.keyCode];
-        }, false);
-        */
     }
 }

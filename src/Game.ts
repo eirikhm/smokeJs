@@ -166,26 +166,7 @@ class Game
 
     private onKeyboard(e)
     {
-        if (e.keys[38] || e.keys[32])
-        {
-            this.player.jump();
-        }
 
-        if (e.keys[39])
-        {
-            this.player.moveRight();
-        }
-
-        if (e.keys[37])
-        {
-            this.player.moveLeft();
-        }
-
-        if (e.keys[90]) // z
-        {
-            this.projectiles.push(this.player.shoot());
-            //this.playSound(1, 10, 0.08, 0, 1);
-        }
     }
 
     public loop():void
@@ -205,7 +186,26 @@ class Game
 
     private update(delta):void
     {
+        if (Keyboard.isDown(38) || Keyboard.isDown(32))
+        {
+            this.player.jump();
+        }
 
+        if (Keyboard.isDown(39))
+        {
+            this.player.moveRight();
+        }
+
+        if (Keyboard.isDown(37))
+        {
+            this.player.moveLeft();
+        }
+
+        if (Keyboard.isDown(90))
+        {
+            this.projectiles.push(this.player.shoot());
+            //this.playSound(1, 10, 0.08, 0, 1);
+        }
         for (var i = 0; i < this.projectiles.length; i++)
         {
             this.projectiles[i].update(delta);

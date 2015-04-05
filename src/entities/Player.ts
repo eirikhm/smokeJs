@@ -37,7 +37,7 @@ class Player extends PhysicsEntity
         if (!this.jumping)
         {
             this.jumping = true;
-            this.velocityY = -this.speed * 3;
+            this.velocityY = -this.speed * 2;
         }
     }
 
