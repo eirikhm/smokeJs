@@ -203,7 +203,12 @@ class Game
 
         if (Keyboard.isDown(90))
         {
-            this.projectiles.push(this.player.shoot());
+            Keyboard.releaseKey(90);
+            if (this.player.canShoot())
+            {
+                this.projectiles.push(this.player.shoot());
+            }
+
             //this.playSound(1, 10, 0.08, 0, 1);
         }
         for (var i = 0; i < this.projectiles.length; i++)

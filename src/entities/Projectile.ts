@@ -27,7 +27,6 @@ class Projectile extends PhysicsEntity
         this.killed = true;
     }
 
-
     public onCollide(entity:PhysicsEntity):void
     {
         if (entity.type == Entity.EntityTypes.MONSTER)

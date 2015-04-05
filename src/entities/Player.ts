@@ -59,8 +59,27 @@ class Player extends PhysicsEntity
         }
     }
 
+    public canShoot():boolean
+    {
+        var now = Date.now();
+        var delta = now - this.lastShot;
+        if (delta < 200)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    private lastShot:number = null;
     public shoot():Projectile
     {
+        if (!this.canShoot())
+        {
+            return;
+        }
+
+        this.lastShot = Date.now();
+
         var b = new Projectile({
             properties:{
 

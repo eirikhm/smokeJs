@@ -75,31 +75,24 @@ class Level extends Entity
 
     public initializeAndReturnObjects(map:any)
     {
-        var mapData = map.layers[0].data;
-        var objects = map.layers[1].objects;
-        this.cells = mapData;
+        this.cells = map.layers[0].data;
         return map.layers[1].objects;
     }
 
     public checkWorldCollision(entity:PhysicsEntity):void
     {
-        var xTile = this.pixel2tile(entity.x);
-        var yTile = this.pixel2tile(entity.y);
+        var xTile:number = this.pixel2tile(entity.x);
+        var yTile:number = this.pixel2tile(entity.y);
         var nx:number = entity.x % Level.TILE_PIXEL_SIZE;
         var ny:number = entity.y % Level.TILE_PIXEL_SIZE;
+
         var currentCell:number = this.getCell(xTile, yTile);
-        var cellRight = this.getCell(xTile + 1, yTile);
-        var cellBelow = this.getCell(xTile, yTile + 1);
-        var cellDiagonal = this.getCell(xTile + 1, yTile + 1);
 
-        if (entity.type == Entity.EntityTypes.PROJECTILE)
-        {
-            console.log('cellBelow ',cellBelow );
-            console.log('yTile',yTile);
-            console.log('xTile',xTile);
-            console.log('-------------');
+        var cellRight:number = this.getCell(xTile + 1, yTile);
 
-        }
+        var cellBelow:number = this.getCell(xTile, yTile + 1);
+
+        var cellDiagonal:number = this.getCell(xTile + 1, yTile + 1);
 
         if (entity.velocityY > 0)
         {
@@ -112,7 +105,7 @@ class Level extends Entity
                 entity.jumping = false;
                 ny = 0;
                 entity.hitFloor();
-                
+
             }
         }
         else if (entity.velocityY < 0)
@@ -151,7 +144,8 @@ class Level extends Entity
         {
             entity.onEdge('left');
         }
-        else if (entity.facingRight && (cellRight|| !cellDiagonal)) {
+        else if (entity.facingRight && (cellRight || !cellDiagonal))
+        {
             entity.onEdge('right');
         }
 
