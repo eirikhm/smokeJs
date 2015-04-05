@@ -2,8 +2,27 @@
 
 class PhysicsEntity extends Entity
 {
-    public velocityX = 0;
-    public velocityY = 0;
+
+    get velocityX():number
+    {
+        return this.get('velocityX');
+    }
+
+    set velocityX(val:number)
+    {
+        this.set('velocityX',val);
+    }
+
+    get velocityY():number
+    {
+        return this.get('velocityY');
+    }
+
+    set velocityY(val:number)
+    {
+        this.set('velocityY',val);
+    }
+
     public gravity = WorldConstants.GRAVITY;
     public speed = 5;
     public jumping:boolean = false;
@@ -64,7 +83,6 @@ class PhysicsEntity extends Entity
     public update(delta):void
     {
         super.update(delta);
-
         this.velocityX *= WorldConstants.FRICTION;
         this.velocityY += WorldConstants.GRAVITY;
 
@@ -81,6 +99,7 @@ class PhysicsEntity extends Entity
     {
 
     }
+
     public hitWall():void
     {
 
@@ -91,8 +110,22 @@ class PhysicsEntity extends Entity
         this.health -= damage;
         if (this.health <= 0)
         {
-            this.killed = true;
+            this.onKilled();
         }
+        else
+        {
+            this.onHurt();
+        }
+    }
+
+    protected onHurt():void
+    {
+
+    }
+
+    protected onKilled():void
+    {
+        this.killed = true;
     }
 
     get facingLeft():boolean

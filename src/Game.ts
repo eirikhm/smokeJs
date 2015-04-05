@@ -1,4 +1,4 @@
-///<reference path="../definitions/backbone/backbone.d.ts" />
+
 ///<reference path="../definitions/fpsmeter/fpsmeter.d.ts" />
 ///<reference path="../definitions/webaudioapi/waa.d.ts" />
 ///<reference path="./world/Level.ts" />
@@ -52,6 +52,16 @@ class Game
 
             this.onMapLodaedForor(objects);
 
+            this.player.on(Player.EVENT_PLAYER_ITEM_PICKUP,() => {
+               this.updateGui();
+            });
+            this.player.on(Player.EVENT_PLAYER_HURT,() => {
+                this.updateGui();
+            });
+            this.player.on(Player.EVENT_PLAYER_KILLED,() => {
+
+                this.updateGui();
+            });
             this.width = this.canvas.width = this.level.map.width * Level.TILE_PIXEL_SIZE;
             this.height = this.canvas.height = this.level.map.height * Level.TILE_PIXEL_SIZE;
 
@@ -61,6 +71,7 @@ class Game
     }
 
     private buffers;
+    
     public loadSounds(context)
     {
         var sounds = [
@@ -232,7 +243,6 @@ class Game
                 {
                     // do not use delete, will not reindex array.
                     this.entities.splice(i, 1);
-                    this.updateGui();
                 }
             }
         }

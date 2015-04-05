@@ -38,14 +38,14 @@ class Treasure extends PhysicsEntity
         }
     }
 
+    public onCollect():void
+    {
+
+    }
     public onCollide(entity:PhysicsEntity):void
     {
         if (!this.isCollected && entity.type == 'player')
         {
-            var player = <Player>entity;
-            player.color = 'purple';
-
-            player.health += 20;
             this.isCollected = true;
 
             var particleOptions = {
@@ -60,6 +60,9 @@ class Treasure extends PhysicsEntity
 
             var emitter:any = new ParticleEmitter(new Vector2D(this.x, this.y), Vector2D.fromAngle(180, 4), particleOptions);
             this.children.push(<Entity>emitter); // this is a hack, the emitter is not Entity
+
+            var player = <Player>entity;
+            player.collectItem(this);
         }
     }
 }

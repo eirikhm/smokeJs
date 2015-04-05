@@ -1,13 +1,10 @@
 ///<reference path="../entities/PhysicsEntity.ts" />
-///<reference path="../entities/Player.ts" />
 ///<reference path="../entities/Monster.ts" />
 ///<reference path="../entities/Treasure.ts" />
 
 class Level extends Entity
 {
     public map = {width: 64, height: 48};
-
-    public player:Player;
 
     private static COLOR = {
         BLACK: '#000000',

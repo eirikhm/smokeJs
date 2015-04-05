@@ -2,6 +2,10 @@
 
 class Player extends PhysicsEntity
 {
+    public static EVENT_PLAYER_KILLED:string = 'EVENT_PLAYER_KILLED';
+    public static EVENT_PLAYER_HURT:string = 'EVENT_PLAYER_HURT';
+    public static EVENT_PLAYER_ITEM_PICKUP:string = 'EVENT_PLAYER_ITEM_PICKUP';
+
     public color = "blue";
 
     constructor(obj)
@@ -71,5 +75,24 @@ class Player extends PhysicsEntity
         }
         return b;
 
+    }
+
+    public collectItem(item:Entity):void
+    {
+        this.color = 'purple';
+        this.health += 20; // todo: fetch from item specs
+        this.trigger('itemCollected');
+    }
+
+    protected onKilled():void
+    {
+        super.onKilled();
+        this.trigger(Player.EVENT_PLAYER_KILLED);
+    }
+
+    protected onHurt():void
+    {
+        super.onHurt();
+        this.trigger(Player.EVENT_PLAYER_HURT);
     }
 }

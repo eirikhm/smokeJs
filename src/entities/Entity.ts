@@ -1,40 +1,53 @@
-class Entity
+///<reference path="../../definitions/backbone/backbone.d.ts" />
+
+class Entity extends Backbone.Model
 {
-    public x = 0;
-    public y = 0;
-
-    public width = 32;
-    public height = 32;
-
     public type:string;
 
     protected children:Entity[] = [];
 
-    constructor(obj?:any)
+    get x():number
     {
-        if (obj)
-        {
-            this.x = obj.x;
-            this.y = obj.y;
-        }
+        return this.get('x');
+    }
 
+    set x(val:number)
+    {
+        this.set('x',val);
+    }
 
-        /*this.maxdx    = METER * (obj.properties.maxdx   || MAXDX);
-        this.maxdy    = METER * (obj.properties.maxdy   || MAXDY);
-        this.impulse  = METER * (obj.properties.impulse || IMPULSE);*/
+    get y():number
+    {
+        return this.get('y');
+    }
 
-        //entity.accel    = entity.maxdx / (obj.properties.accel    || ACCEL);
-       // entity.friction = entity.maxdx / (obj.properties.friction || FRICTIO
-//        this.start    = { x: obj.x, y: obj.y }
+    set y(val:number)
+    {
+        this.set('y',val);
+    }
 
-        //entity.left     = obj.properties.left;
-        //entity.right    = obj.properties.right;
+    get height():number
+    {
+        return this.get('height');
+    }
 
+    set height(val:number)
+    {
+        this.set('height',val);
+    }
+
+    get width():number
+    {
+        return this.get('width');
+    }
+
+    set width(val:number)
+    {
+        this.set('width',val);
     }
 
     public update(delta:number):void
     {
-
         for (var i = 0; i < this.children.length; i++)
         {
             var entity = <PhysicsEntity>this.children[i];
