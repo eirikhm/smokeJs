@@ -12,7 +12,7 @@ class Game
     private ctx:CanvasRenderingContext2D;
     private then:any;
     private entities:Entity[] = [];
-    private projectiles:Bullet[] = [];
+    private projectiles:Projectile[] = [];
     private player:Player;
     private level:Level;
     private width:number;
@@ -71,7 +71,7 @@ class Game
     }
 
     private buffers;
-    
+
     public loadSounds(context)
     {
         var sounds = [
@@ -120,7 +120,12 @@ class Game
         {
             obj = objects[n];
             entity = this.createEntity(obj);
-            if (entity.type == 'player')
+            if (!entity)
+            {
+                console.log('unknown entity',obj);
+                continue;
+            }
+            if (entity.type == Entity.EntityTypes.PLAYER)
             {
                 this.player = <Player>entity;
             }
@@ -179,8 +184,7 @@ class Game
         if (e.keys[90]) // z
         {
             this.projectiles.push(this.player.shoot());
-            //this.shootRound(0, 3, 0.1);
-            this.playSound(1, 10, 0.08, 0, 1);
+            //this.playSound(1, 10, 0.08, 0, 1);
         }
     }
 
@@ -222,16 +226,16 @@ class Game
                 entity.update(delta);
                 this.level.checkWorldCollision(entity);
 
-                if (entity.type == "monster")
+                if (entity.type == Entity.EntityTypes.MONSTER)
                 {
                     if (entity.overlaps(this.player))
                     {
                         entity.onCollide(this.player);
                     }
-                    this.bulletOverlaps(entity);
+                    this.projectileOverlaps(entity);
                 }
 
-                if (entity.type == 'treasure')
+                if (entity.type == Entity.EntityTypes.TREASURE)
                 {
                     if (entity.overlaps(this.player))
                     {
@@ -257,7 +261,7 @@ class Game
 
     }
 
-    private bulletOverlaps(entity):void
+    private projectileOverlaps(entity):void
     {
         for (var i = 0; i < this.projectiles.length; i++)
         {

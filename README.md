@@ -13,10 +13,14 @@ TODO high to low:
 - Add audio 
  - http://blog.sklambert.com/html5-canvas-game-html5-audio-and-finishing-touches/
  - http://www.html5rocks.com/en/tutorials/webaudio/games/
+
 - Add sound support for pickups etc
+
+
 - Clean up level code to allow loading other levels
+
 - Make Keyboard non-singleton
-- Create consts for entity types
+
 - Add support for multiple BGs
 - Implement textures
 - Particle and emitter should be entities

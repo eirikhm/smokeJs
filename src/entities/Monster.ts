@@ -5,7 +5,7 @@ class Monster extends PhysicsEntity
     constructor(obj)
     {
         super(obj);
-        this.type = 'monster';
+        this.type = Entity.EntityTypes.MONSTER;
         this.speed = (Math.random() +1)*2;
         this.velocityX = this.speed;
     }
@@ -42,7 +42,7 @@ class Monster extends PhysicsEntity
 
     public onCollide(entity:PhysicsEntity):void
     {
-        if (entity.type == 'player')
+        if (entity.type == Entity.EntityTypes.PLAYER)
         {
             entity.hurt(1);
         }

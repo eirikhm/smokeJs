@@ -11,7 +11,7 @@ class Player extends PhysicsEntity
     constructor(obj)
     {
         super(obj);
-        this.type = 'player';
+        this.type = Entity.EntityTypes.PLAYER;
         this.velocityX = this.velocityY  = 0;
     }
 
@@ -59,9 +59,9 @@ class Player extends PhysicsEntity
         }
     }
 
-    public shoot():Bullet
+    public shoot():Projectile
     {
-        var b = new Bullet({
+        var b = new Projectile({
             properties:{
 
             }
@@ -81,7 +81,7 @@ class Player extends PhysicsEntity
     {
         this.color = 'purple';
         this.health += 20; // todo: fetch from item specs
-        this.trigger('itemCollected');
+        this.trigger(Player.EVENT_PLAYER_ITEM_PICKUP);
     }
 
     protected onKilled():void

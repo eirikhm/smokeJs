@@ -11,7 +11,7 @@ class Treasure extends PhysicsEntity
     constructor(obj)
     {
         super(obj);
-        this.type = 'treasure';
+        this.type = Entity.EntityTypes.TREASURE;
         this.velocityX = this.velocityY = 0;
     }
 
@@ -44,7 +44,7 @@ class Treasure extends PhysicsEntity
     }
     public onCollide(entity:PhysicsEntity):void
     {
-        if (!this.isCollected && entity.type == 'player')
+        if (!this.isCollected && entity.type == Entity.EntityTypes.PLAYER)
         {
             this.isCollected = true;
 

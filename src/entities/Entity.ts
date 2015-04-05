@@ -2,7 +2,7 @@
 
 class Entity extends Backbone.Model
 {
-    public type:string;
+    public type:Entity.EntityTypes;
 
     protected children:Entity[] = [];
 
@@ -67,5 +67,16 @@ class Entity extends Backbone.Model
         {
             this.children[i].render(ctx);
         }
+    }
+}
+
+module Entity
+{
+    export enum EntityTypes
+    {
+        MONSTER,
+        PROJECTILE,
+        TREASURE,
+        PLAYER
     }
 }

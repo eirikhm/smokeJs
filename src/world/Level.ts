@@ -92,7 +92,7 @@ class Level extends Entity
         var cellBelow = this.getCell(xTile, yTile + 1);
         var cellDiagonal = this.getCell(xTile + 1, yTile + 1);
 
-        if (entity.type == 'bullet')
+        if (entity.type == Entity.EntityTypes.PROJECTILE)
         {
             console.log('cellBelow ',cellBelow );
             console.log('yTile',yTile);

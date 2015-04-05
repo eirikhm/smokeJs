@@ -27,7 +27,6 @@ class PhysicsEntity extends Entity
     public speed = 5;
     public jumping:boolean = false;
     public falling:boolean = false;
-    public type:string;
 
     public facing:string;
 
